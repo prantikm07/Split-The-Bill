@@ -1,3 +1,2 @@
 fpdf
-os-sys
 streamlit
