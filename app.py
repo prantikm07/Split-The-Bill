@@ -127,23 +127,21 @@ def main():
         st.header("Add an Expense")
         reason = st.text_input("Reason for expense:")
         payer = st.selectbox("Who paid?", app.people)
-        amount = st.number_input("Amount spent:", min_value=0.0, step=0.01)
+        amount = st.number_input("Amount spent:", min_value=0, step=0)
 
-        equal_split = st.checkbox("Equal Distribution")
-        unequal_split = st.checkbox("Unequal Distribution")
+        distribution_type = st.radio(
+            "Select Distribution Type:",
+            ("Equal", "Unequal")
+        )
 
         distribution_data = []
-        distribution_type = None
 
-        if equal_split:
-            distribution_type = "Equal"
-        elif unequal_split:
+        if distribution_type == "Unequal":
             unequal_data = st.text_input(
                 "Enter individual amounts (comma-separated, same order as participants):"
             )
             if unequal_data:
                 distribution_data = list(map(float, unequal_data.split(",")))
-                distribution_type = "Unequal"
 
         if st.button("Add Expense"):
             if reason and payer and amount > 0 and distribution_type:
@@ -195,7 +193,6 @@ def main():
 
                 # Cleanup after download
                 os.remove(pdf_path)
-
 
 if __name__ == "__main__":
     main()
